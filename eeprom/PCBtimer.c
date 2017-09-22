@@ -66,15 +66,20 @@ void updateLCD(uint16_t seconds)
 void updateSerial(uint16_t seconds)
 	{
 	uint16_t mins = 0;
-	char tmpstr[0];
+	uint16_t secs = 0;
+	char tmpmins[100];
+	char tmpsecs[100];
 		if (seconds < 0)
 			seconds = 0;
 	mins  = seconds / 60;
-//	seconds = seconds % 60;
+	secs = seconds % 60;
 
-	(itoa(seconds,tmpstr,10));
+	(itoa(mins,tmpmins,10));
+	(itoa(secs,tmpsecs,10));
 	USART_putstring("\"");
-	USART_putstring(tmpstr);    	// Pass the string to the USART_putstring function and sends it over the serial
+	USART_putstring(tmpmins);  // Pass the string to the USART_putstring function and sends it over the serial
+	USART_putstring(":");
+	USART_putstring(tmpsecs);
 	USART_putstring("\"");
 	USART_putstring("\n");
 
@@ -124,7 +129,7 @@ int main(void) {
 		RotaryResetStatus(); //reset
 		//lcd_gotoxy(11,1); //go to 11th position on second line
 		//lcd_puts(utoa(secs,tmpstr,10)); //output the counter
-		//updateSerial(secs);
+		updateSerial(secs);
 		updateLCD(secs);
 
 	
